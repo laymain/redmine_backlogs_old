@@ -82,6 +82,10 @@ RB.Story = RB.Object.create(RB.Issue, RB.EditableInplace, {
 	return this.$.find('.tracker_id .t').text();
   },
 
+  getProject: function(){
+        return this.$.find('.project .t').text();
+  },
+
   getType: function(){
     return "Story";
   },

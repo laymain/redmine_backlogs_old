@@ -256,24 +256,51 @@ RB.Backlog = RB.Object.create({
   },
 
   recalcVelocity: function(){
+    var tracker_by_project = new Array();
     var tracker_total = new Array();
     total = 0;
     this.getStories().each(function(index){
       var story = RB.$(this).data('this');
       var story_tracker = story.getTracker();
+      var story_project = story.getProject();
       total += RB.$(this).data('this').getPoints();
       if ('undefined' == typeof(tracker_total[story_tracker])) {
-         tracker_total[story_tracker] = 0;
+        tracker_total[story_tracker] = new Array();
+	tracker_total[story_tracker]['points'] = 0;
+	tracker_total[story_tracker]['count'] = 0;
       }
-      tracker_total[story_tracker] += story.getPoints();
-    });
-    var sprint_points = this.$.children('.header').children('.velocity');
-    sprint_points.text(total);
-    var tracker_summary = "<b>Tracker statistics</b><br />";
-    for (var t in tracker_total) {
-       tracker_summary += '<b>' + t + ':</b> ' + tracker_total[t] + '<br />';
-    }
-    sprint_points.qtip('option', 'content.text', tracker_summary);
+      tracker_total[story_tracker]['points'] += story.getPoints();
+      tracker_total[story_tracker]['count'] += 1;
+      if ('undefined' == typeof(tracker_by_project[story_project]))
+        tracker_by_project[story_project] = new Array();
+	if ('undefined' == typeof(tracker_by_project[story_project][story_tracker])) {
+	  tracker_by_project[story_project][story_tracker] = new Array();
+	  tracker_by_project[story_project][story_tracker]['points'] = 0;
+	  tracker_by_project[story_project][story_tracker]['count'] = 0;
+	}
+	tracker_by_project[story_project][story_tracker]['points'] += story.getPoints();
+	tracker_by_project[story_project][story_tracker]['count'] += 1;
+      });
+      var sprint_points = this.$.children('.header').children('.velocity');
+      sprint_points.text(total);
+      var tracker_summary = "<b>Tracker statistics</b><br/>";
+      if (Object.keys(tracker_total).length > 0) {
+        tracker_summary += '<h5 class="backlogs_tooltip_project">Total :</h5><ul class="backlogs_tooltip_project_items">';
+	for (var t in tracker_total) {
+	  tracker_summary += '<li>' + t + ' : ' + tracker_total[t]['points'] + ' (' + tracker_total[t]['count'] + ' items)</li>';
+	}
+	tracker_summary += '</ul>';
+	if (Object.keys(tracker_by_project).length > 1) {
+	  for (var p in tracker_by_project) {
+	    tracker_summary += '<h5 class="backlogs_tooltip_project">' + p + ' :</h5><ul class="backlogs_tooltip_project_items">';
+	    for (var t in tracker_by_project[p]) {
+	      tracker_summary += '<li>' + t + ' : ' + tracker_by_project[p][t]['points'] + ' (' + tracker_by_project[p][t]['count'] + ' items)</li>';
+	    }
+	    tracker_summary += "</ul>";
+	  }
+	}
+      }
+      sprint_points.qtip('option', 'content.text', tracker_summary);
   },
 
   showBurndownChart: function(event){
