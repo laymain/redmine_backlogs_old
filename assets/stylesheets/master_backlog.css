@@ -202,6 +202,12 @@
   left:160px;
   top:0;
 }
+.backlog .header .fold {
+  position: absolute;
+  right: 0px;
+  top: 9px;
+  cursor: pointer;
+}
 .backlog .header .menu .item .icon {
   left:140px;
   top:5px;
@@ -258,10 +264,10 @@
   line-height:31px;
   padding:0 3px 0 9px;
   position:absolute;
-  right:9px;
+  right:18px;
   text-align:right;
   top:1px;
-  width:28px;
+  width:19px;
 }
 
 #backlogs_container .closedbacklog .sprint,
