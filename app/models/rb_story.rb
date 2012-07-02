@@ -33,13 +33,15 @@ class RbStory < Issue
     end
 
     if Backlogs.settings[:sharing_enabled]
+      projects_cond = Project.find(project_id).project_condition(true);
       pbl_condition = ["
-        (#{Project.find(project_id).project_condition(true)})
+        (#{projects_cond})
         and tracker_id in (?)
         and fixed_version_id is NULL
         and is_closed = ?", RbStory.trackers, false]
       sprint_condition = ["
-        tracker_id in (?)
+        (#{projects_cond})
+        and tracker_id in (?)
         and fixed_version_id IN (?)", RbStory.trackers, sprint_ids]
     else
       pbl_condition = ["
@@ -55,13 +57,14 @@ class RbStory < Issue
 
     if sprint_ids.nil?
       Backlogs::ActiveRecord.add_condition(options, pbl_condition)
-      options[:joins] ||= []
-      options[:joins] [options[:joins]] unless options[:joins].is_a?(Array)
-      options[:joins] << :status
-      options[:joins] << :project
-    else
+		else
       Backlogs::ActiveRecord.add_condition(options, sprint_condition)
     end
+
+		options[:joins] ||= []
+		options[:joins] [options[:joins]] unless options[:joins].is_a?(Array)
+		options[:joins] << :status
+		options[:joins] << :project
 
     return options
   end
