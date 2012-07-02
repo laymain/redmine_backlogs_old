@@ -27,7 +27,6 @@ namespace :redmine do
       # Necessary because adding key-value pairs one by one doesn't seem to work
       Backlogs.setting[:points_burn_direction] ||= 'down'
       Backlogs.setting[:wiki_template] ||= ''
-      Backlogs.setting[:sharing_mode] ||= 'versions'
 
       puts "\n"
       puts "====================================================="
@@ -49,6 +48,10 @@ namespace :redmine do
           print "Default labels installed\n"
           FileUtils.cp(File.dirname(__FILE__) + '/../labels.yaml.default', File.dirname(__FILE__) + '/../labels.yaml')
         end
+      end
+
+      if BacklogsPrintableCards::CardPageLayout.selected.blank? && BacklogsPrintableCards::CardPageLayout.available.size > 0 
+        Backlogs.setting[:card_spec] = BacklogsPrintableCards::CardPageLayout.available[0]
       end
 
       trackers = Tracker.find(:all)

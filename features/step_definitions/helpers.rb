@@ -3,10 +3,14 @@ def get_project(identifier)
 end
 
 def verify_request_status(status)
-  page.driver.response.status.should equal(status),\
-    "Request returned #{page.driver.response.status} instead of the expected #{status}: "\
-    "#{page.driver.response.status}\n"\
-    "#{page.driver.response.body}"
+  if page.driver.respond_to?('response') # javascript drivers has no response
+    page.driver.response.status.should equal(status),\
+      "Request returned #{page.driver.response.status} instead of the expected #{status}: "\
+      "#{page.driver.response.status}\n"\
+      "#{page.driver.response.body}"
+  else
+    true
+  end
 end
 
 def story_before(rank, project, sprint=nil)
@@ -51,7 +55,7 @@ def initialize_task_params(story_id)
   params['tracker_id'] = RbTask.tracker
   params['author_id']  = @user.id
   params['parent_issue_id'] = story_id
-  params['status_id'] = IssueStatus.find(:first).id
+  params['status_id'] = IssueStatus.default.id
   params
 end
 
@@ -142,14 +146,6 @@ def show_table(title, header, data)
   }
 
   puts "\n\n"
-end
-
-def assert_page_loaded(page)
-  if page.driver.respond_to?('response') # javascript drivers has no response
-    page.driver.response.status.should == 200
-  else
-    true # no way to check javascript driver page status yet
-  end
 end
 
 def check_backlog_menu_new_story(links, project)
