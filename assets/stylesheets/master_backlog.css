@@ -750,15 +750,35 @@
   background-color:#FED0D0;
 }
 
-div.ui-tooltip-content h5.backlogs_tooltip_project {
-  font-size:0.8em;
-  margin-bottom: 0;
-  margin-top: 1em;
+div.ui-tooltip-content table
+{
+	border-spacing:0;
+	width:100%;
+	font-size: 10px;
 }
 
-div.ui-tooltip-content ul.backlogs_tooltip_project_items {
-  font-size:0.8em;
-  list-style-type: none;
-  margin:0;
-  padding-left:20px;
+div.ui-tooltip-content table col.wide
+{
+
+}
+
+div.ui-tooltip-content table col.tight
+{
+	width:85px;
+}
+
+div.ui-tooltip-content table tr th
+{
+	border-bottom:1px solid #CCCCCC;
+	font-size:11px;
+}
+
+div.ui-tooltip-content table tr td.separator
+{
+	border-bottom:1px solid #CCCCCC;
+}
+
+div.ui-tooltip-content table tr.totalRow td
+{
+	font-weight:bold;
 }
