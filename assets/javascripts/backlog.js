@@ -301,7 +301,7 @@ RB.Backlog = RB.Object.create({
     // All projects
     tracker_summary += '<tr class="totalRow"><td>All</td><td>' + (total_count_estimated + total_count_unestimated) + ' item' + (total_count_estimated + total_count_unestimated > 1 ? 's' : '') +'</td><td>' + total.toFixed(1) + '</td><td>' + total_count_estimated + '</td><td>' + total_count_unestimated + '</td></tr>';
     for (var t in tracker_total) {
-      tracker_summary += '<tr><td>&nbsp;</td><td>' + tracker_total[t]['count'] + ' ' + t.toLowerCase() + (tracker_total[t]['count'] > 1 ? 's' : '') + '</td><td>' + tracker_total[t]['points'].toFixed(1) + '</td><td>' + tracker_total[t]['count_estimated'] + '</td><td>' + tracker_total[t]['count_unestimated'] + '</td></tr>';
+      tracker_summary += '<tr><td>&nbsp;</td><td>' + tracker_total[t]['count'] + ' <i>' + t + '</i></td><td>' + tracker_total[t]['points'].toFixed(1) + '</td><td>' + tracker_total[t]['count_estimated'] + '</td><td>' + tracker_total[t]['count_unestimated'] + '</td></tr>';
     }
 
     // By project
@@ -314,7 +314,7 @@ RB.Backlog = RB.Object.create({
         points += tracker_by_project[p][t]['points'];
         unestimated_count +=  tracker_by_project[p][t]['count_unestimated'];
         estimated_count +=  tracker_by_project[p][t]['count_estimated'];
-        project_html += '<tr><td>&nbsp;</td><td>' + tracker_by_project[p][t]['count'] + ' ' + t.toLowerCase() + (tracker_by_project[p][t]['count_estimated'] > 1 ? 's' : '') + '</td><td>' + tracker_by_project[p][t]['points'].toFixed(1) + '</td><td>' + tracker_by_project[p][t]['count_estimated'] + '</td><td>' + tracker_by_project[p][t]['count_unestimated'] + '</td></tr>';
+        project_html += '<tr><td>&nbsp;</td><td>' + tracker_by_project[p][t]['count'] + ' <i>' + t + '</i></td><td>' + tracker_by_project[p][t]['points'].toFixed(1) + '</td><td>' + tracker_by_project[p][t]['count_estimated'] + '</td><td>' + tracker_by_project[p][t]['count_unestimated'] + '</td></tr>';
       }
       tracker_summary += '<tr><td colspan="5" class="separator"</td></tr>';
       tracker_summary += '<tr class="totalRow"><td>' + p + '</td><td>' + (estimated_count + unestimated_count) + ' item' + (estimated_count + unestimated_count > 1 ? 's' : '') + '</td><td>' + points.toFixed(1) + '</td><td>' + estimated_count + '</td><td>' + unestimated_count + '</td></tr>';
