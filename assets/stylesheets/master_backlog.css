@@ -262,12 +262,10 @@
   font-size:12px;
   height:28px;
   line-height:31px;
-  padding:0 3px 0 9px;
   position:absolute;
-  right:18px;
+  right:15px;
   text-align:right;
   top:1px;
-  width:19px;
 }
 
 #backlogs_container .closedbacklog .sprint,
